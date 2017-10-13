@@ -1,0 +1,7 @@
+apiVersion: "kool.karmalabs.local/v1"
+kind: Guitar
+metadata:
+  name: d15
+spec:
+  brand: martin
+  review: false

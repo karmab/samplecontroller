@@ -1,0 +1,7 @@
+apiVersion: "kool.karmalabs.local/v1"
+kind: Guitar
+metadata:
+  name: x003
+spec:
+  brand: yamaha
+  review: false
