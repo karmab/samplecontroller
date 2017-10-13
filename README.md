@@ -29,6 +29,8 @@ oc get guitars -o yaml
 ## TODO
 
 - use some mechanism to enable local development
+- create the guitar crd definition when it doesnt exist
+- build a basic flask ui to create and view guitar objects
 
 ## Copyright
 
