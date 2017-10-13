@@ -10,11 +10,12 @@ This is a simple controller to demonstrate how to interact within kubernetes usi
 - If running on openshift, enough privileges as i m checking guitars cluster wide
 
 ```
-oc create -f crd/guitar.yml
 oc new-project guitarcenter
 oc adm policy add-cluster-role-to-user cluster-admin -z default -n guitarcenter
 oc new-app karmab/samplecontroller
 ```
+
+Note that the guitar custom resource definition gets created when launching the controller
 
 ## How to use
 
@@ -28,8 +29,6 @@ oc get guitars -o yaml
 
 ## TODO
 
-- use some mechanism to enable local development
-- create the guitar crd definition when it doesnt exist
 - build a basic flask ui to create and view guitar objects
 
 ## Copyright
