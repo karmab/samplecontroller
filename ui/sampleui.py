@@ -4,7 +4,8 @@ from flask import Flask, render_template, request, jsonify
 from kubernetes import client, config
 import os
 
-DOMAIN = "kool.karmalabs.local"
+DOMAIN = 'kool.karmalabs.local'
+VERSION = 'v1'
 app = Flask(__name__)
 
 
@@ -12,7 +13,10 @@ app = Flask(__name__)
 def guitaradd():
     name = request.form['name']
     brand = request.form['brand']
-    print name, brand
+    namespace = 'guitar-center'
+    body = {'kind': 'Guitar', 'spec': {'brand': brand, 'review': False}, 'apiVersion': '%s/%s' % (DOMAIN, VERSION), 'metadata': {'name': name, 'namespace': namespace}}
+    crds = client.CustomObjectsApi()
+    crds.create_cluster_custom_object(DOMAIN, VERSION, 'guitars', body)
     result = {'result': 'success'}
     response = jsonify(result)
     response.status_code = 200
@@ -38,7 +42,7 @@ def guitarslist():
     else:
         config.load_kube_config()
     crds = client.CustomObjectsApi()
-    guitars = crds.list_cluster_custom_object(DOMAIN, "v1", "guitars")["items"]
+    guitars = crds.list_cluster_custom_object(DOMAIN, VERSION, 'guitars')["items"]
     return render_template("index.html", title="Guitars", guitars=guitars)
 
 
