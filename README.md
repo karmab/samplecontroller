@@ -27,6 +27,15 @@ oc create -f crd/lespaul.yml
 oc get guitars -o yaml
 ```
 
+## UI
+
+To ease testing, you can also use the provided UI
+
+```
+oc new-app karmab/sampleui
+oc expose svc sampleui
+```
+
 ## TODO
 
 - build a basic flask ui to create and view guitar objects

@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class='notifications top-right'></div>
-
+<div id='result'></div>
 <form id="guitarcreate">
   Model Name:<br>
   <input type="text" id="name">
@@ -14,12 +13,11 @@
     <option value="martin">Martin</option>
   </select>
   <br><br>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary" onclick="guitarcreate();" >Submit</button>
 </form>
 
 <script>
-$(document).ready(function() {
-    $("#guitarcreate").submit(function() {
+function guitarcreate() {
     var name = $("#name").val();
     var brand = $("#brand").val();
     data = {'name': name, 'brand': brand};
@@ -29,14 +27,13 @@ $(document).ready(function() {
           data: data,
           success: function(data) {
               if (data.result == 'success') {
-                  $('.top-right').notify({message: { text: "Guitar "+name+" Added!!!" }, type: 'success'}).show();
+                $("#result").replaceWith("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
               } else {
-                  $('.top-right').notify({message: { text: "Guitar "+name+" Not added because "+data.reason }, type: 'danger'}).show();
+                $("#result").replaceWith("<div class='alert alert-error alert-dismissable'>Guitar not added</div>");
               };
           }
     });
     return ;
-    });
-});
+}
 </script>
 {% endblock %}
