@@ -8,10 +8,11 @@ function guitaradd() {
           data: data,
           success: function(data) {
               alert(data.result)
+              $("#result").html("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
               if (data.result == 'success') {
-                $(".result").replaceWith("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
+                $("#result").html("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
               } else {
-                $(".result").replaceWith("<div class='alert alert-error alert-dismissable'>Guitar not added</div>");
+                $("#result").html("<div class='alert alert-error alert-dismissable'>Guitar not added</div>");
               };
           }
     });
