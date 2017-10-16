@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id='result' name='result'></div>
+<form id="guitarcreate">
+  Model Name:<br>
+  <input type="text" id="name" name="name">
+  <br>
+  Brand:<br>
+    <select id="brand" name="brand">
+    <option value="fender">Fender</option>
+    <option value="gibson">Gibson</option>
+    <option value="ibanez">Ibanez</option>
+    <option value="martin">Martin</option>
+  </select>
+  <br><br>
+  <button type="submit" class="btn btn-primary" onclick="guitaradd();" >Submit</button>
+</form>
+{% endblock %}
