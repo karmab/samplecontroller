@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from kubernetes import client, config
 import os
 
@@ -8,9 +8,24 @@ DOMAIN = "kool.karmalabs.local"
 app = Flask(__name__)
 
 
-@app.route("/add")
+@app.route("/guitaradd", methods=['POST'])
 def guitaradd():
-    return render_template("add.html", title="Add Your Guitar")
+    name = request.form['name']
+    brand = request.form['brand']
+    print name, brand
+    result = {'result': 'success'}
+    response = jsonify(result)
+    response.status_code = 200
+    return response
+    # failure = {'result': 'failure', 'reason': "Invalid Data"}
+    # response = jsonify(failure)
+    # response.status_code = 400
+    # return response
+
+
+@app.route("/form")
+def guitarform():
+    return render_template("form.html", title="Add Your Guitar")
 
 
 @app.route("/")

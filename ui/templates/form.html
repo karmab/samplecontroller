@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class='notifications top-right'></div>
+
+<form id="guitarcreate">
+  Model Name:<br>
+  <input type="text" id="name">
+  <br>
+  Brand:<br>
+    <select id="brand">
+    <option value="fender">Fender</option>
+    <option value="gibson">Gibson</option>
+    <option value="ibanez">Ibanez</option>
+    <option value="martin">Martin</option>
+  </select>
+  <br><br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+$(document).ready(function() {
+    $("#guitarcreate").submit(function() {
+    var name = $("#name").val();
+    var brand = $("#brand").val();
+    data = {'name': name, 'brand': brand};
+    $.ajax({
+         type: "POST",
+          url: '/guitaradd',
+          data: data,
+          success: function(data) {
+              if (data.result == 'success') {
+                  $('.top-right').notify({message: { text: "Guitar "+name+" Added!!!" }, type: 'success'}).show();
+              } else {
+                  $('.top-right').notify({message: { text: "Guitar "+name+" Not added because "+data.reason }, type: 'danger'}).show();
+              };
+          }
+    });
+    return ;
+    });
+});
+</script>
+{% endblock %}
