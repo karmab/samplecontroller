@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<div id='result'></div>
+<p id="result"></p>
 <form id="guitarcreate">
   Model Name:<br>
   <input type="text" id="name">
@@ -18,8 +18,8 @@
 
 <script>
 function guitarcreate() {
-    var name = $("#name").val();
-    var brand = $("#brand").val();
+    var name = $('#name').val();
+    var brand = $('#brand').val();
     data = {'name': name, 'brand': brand};
     $.ajax({
          type: "POST",
@@ -27,9 +27,9 @@ function guitarcreate() {
           data: data,
           success: function(data) {
               if (data.result == 'success') {
-                $("#result").replaceWith("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
+                $('#result').html("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
               } else {
-                $("#result").replaceWith("<div class='alert alert-error alert-dismissable'>Guitar not added</div>");
+                $('#result').html("<div class='alert alert-error alert-dismissable'>Guitar not added because "+data.reason+"</div>");
               };
           }
     });
