@@ -7,6 +7,9 @@ import os
 DOMAIN = 'kool.karmalabs.local'
 VERSION = 'v1'
 NAMESPACE = os.environ['GUITAR_NAMESPACE'] if 'GUITAR_NAMESPACE' in os.environ else 'guitarcenter'
+goodbrands = ['coleclark', 'fender', 'gibson', 'ibanez', 'martin', 'seagull', 'squier', 'washburn']
+badbrands = ['epiphone', 'guild', 'gretsch', 'jackson', 'ovation', 'prs', 'rickenbauer', 'taylor', 'yamaha']
+
 app = Flask(__name__)
 
 
@@ -28,13 +31,13 @@ def guitaradd():
     return response
 
 
-@app.route("/form")
+@app.route("/guitarform")
 def guitarform():
-    return render_template("guitaradd.html", title="Add Your Guitar")
+    return render_template("guitarform.html", title="Add Your Guitar", brands=sorted(goodbrands + badbrands))
 
 
 @app.route("/")
-def guitarslist():
+def guitarlist():
     """
     display guitars
     """

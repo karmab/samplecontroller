@@ -7,7 +7,18 @@ This is a simple controller to demonstrate how to interact within kubernetes usi
 ## Requisites
 
 - a running kubernetes/openshift cluster
-- If running on openshift, enough privileges as i m checking guitars cluster wide
+
+## Running
+
+on minikub/gce
+
+```
+kubectl run samplecontroller --image=karmab/samplecontroller
+kubectl run sampleui --image=karmab/sampleui
+kubectl expose deployment sampleui --port=9000 --target-port=9000 --type=LoadBalancer
+```
+
+- on openshift ( enough privileges needed as i m checking guitars cluster wide)
 
 ```
 oc new-project guitarcenter

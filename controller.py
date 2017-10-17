@@ -4,11 +4,12 @@ from kubernetes import client, config, watch
 import os
 
 DOMAIN = "kool.karmalabs.local"
+goodbrands = ['coleclark', 'fender', 'gibson', 'ibanez', 'martin', 'seagull', 'squier', 'washburn']
+badbrands = ['epiphone', 'guild', 'gretsch', 'jackson', 'ovation', 'prs', 'rickenbauer', 'taylor', 'yamaha']
 
 
 def review_guitar(crds, event, obj):
     metadata = obj.get("metadata")
-    goodguitars = ['fender', 'martin']
     if not metadata:
         print("No metadata in object, skipping: %s" % json.dumps(obj, indent=1))
         return
@@ -16,10 +17,12 @@ def review_guitar(crds, event, obj):
     namespace = metadata.get("namespace")
     obj["spec"]["review"] = True
     brand = obj["spec"]["brand"]
-    if brand in goodguitars:
+    if brand in goodbrands:
         obj["spec"]["comment"] = "this is a great instrument"
-    else:
+    elif brand in badbrands:
         obj["spec"]["comment"] = "this is shit"
+    else:
+        obj["spec"]["comment"] = "nobody knows this brand"
 
     print("Updating: %s" % name)
     crds.replace_namespaced_custom_object(DOMAIN, "v1", namespace, "guitars", name, obj)
@@ -35,7 +38,7 @@ if __name__ == "__main__":
     current_crds = [x['spec']['names']['kind'].lower() for x in v1.list_custom_resource_definition().to_dict()['items']]
     if 'guitar' not in current_crds:
         print("Creating guitar definition")
-        with open('guitar.yml') as data:
+        with open('./guitar.yml') as data:
             body = yaml.load(data)
         v1.create_custom_resource_definition(body)
     crds = client.CustomObjectsApi()

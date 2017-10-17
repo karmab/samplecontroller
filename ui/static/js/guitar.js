@@ -1,4 +1,5 @@
-function guitaradd() {
+function guitarcreate() {
+    $("#wheel").show();
     var name = $("#name").val();
     var brand = $("#brand").val();
     data = {'name': name, 'brand': brand};
@@ -7,14 +8,13 @@ function guitaradd() {
           url: '/guitaradd',
           data: data,
           success: function(data) {
-              alert(data.result)
+              $("#wheel").hide();
               $("#result").html("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
               if (data.result == 'success') {
-                $("#result").html("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
+                $('.top-right').notify({message: { text: "Guitar "+name+" Created!!!" }, type: 'success', fadeOut: { delay: 5000 }}).show();
               } else {
-                $("#result").html("<div class='alert alert-error alert-dismissable'>Guitar not added</div>");
+                $('.top-right').notify({message: { text: "Pool "+name+" Failed to Create Because "+data.reason }, type: 'danger', fadeOut: { delay: 5000 }}).show();
               };
           }
     });
-    return ;
 }

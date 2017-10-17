@@ -1,5 +1,30 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<script src="{{ url_for('static', filename='js/guitar.js') }}"></script>
+<!DOCTYPE html>
+<html class="layout-pf">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sample UI">
+    <!--meta http-equiv="refresh" content="10" /-->
+    <title>Sample UI</title>
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dataTables.checkboxes.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.bootstrap-growl.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-notify.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/guitar.js') }}"></script>
+    {% endblock %}
+
+    {% block stylesheets %}
+    <link href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dataTables.checkboxes.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/wheel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-notify.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/guitar.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
