@@ -22,12 +22,13 @@ def guitaradd():
     try:
         crds.create_namespaced_custom_object(DOMAIN, VERSION, NAMESPACE, 'guitars', body)
         result = {'result': 'success'}
-        code = 200
+        # code = 200
     except Exception as e:
-        result = {'result': 'failure', 'reason': e.body}
-        code = 200
+        message = [x.split(':')[1] for x in e.body.split(',') if 'message' in x][0].replace('"', '')
+        result = {'result': 'failure', 'reason': message}
+        # code = e.status
     response = jsonify(result)
-    response.status_code = code
+    # response.status_code = code
     return response
 
 
@@ -43,6 +44,7 @@ def guitarlist():
     """
     crds = client.CustomObjectsApi()
     guitars = crds.list_cluster_custom_object(DOMAIN, VERSION, 'guitars')["items"]
+    guitars = sorted(guitars, key=lambda x: (x.get("spec")["brand"], x.get("metadata")["name"]))
     return render_template("guitarlist.html", title="Guitars", guitars=guitars)
 
 
