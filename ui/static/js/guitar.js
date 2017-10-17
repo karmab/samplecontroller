@@ -11,9 +11,9 @@ function guitarcreate() {
               $("#wheel").hide();
               $("#result").html("<div class='alert alert-success alert-dismissable'>Guitar added!</div>");
               if (data.result == 'success') {
-                $.notify("Guitar "+name+" Created!!!", "success");
+                $("body").overhang({message: "Guitar "+name+" Created!!!", type: "success", duration: 5});
               } else {
-                $.notify("Pool "+name+" Failed to Create Because "+data.reason, "danger");
+                $("body").overhang({message: "Guitar "+name+" Failed to Create Because "+data.reason, type: "error", closeConfirm: true});
               };
           }
     });
