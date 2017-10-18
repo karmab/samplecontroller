@@ -32,12 +32,29 @@ def guitaradd():
     return response
 
 
+@app.route("/guitardelete", methods=['POST'])
+def guitardelete():
+    name = request.form['name']
+    crds = client.CustomObjectsApi()
+    try:
+        crds.delete_namespaced_custom_object(DOMAIN, VERSION, NAMESPACE, 'guitars', name, client.V1DeleteOptions())
+        result = {'result': 'success'}
+        # code = 200
+    except Exception as e:
+        message = [x.split(':')[1] for x in e.body.split(',') if 'message' in x][0].replace('"', '')
+        result = {'result': 'failure', 'reason': message}
+        # code = e.status
+    response = jsonify(result)
+    # response.status_code = code
+    return response
+
+
 @app.route("/guitarform")
 def guitarform():
     return render_template("guitarform.html", title="Add Your Guitar", brands=sorted(goodbrands + badbrands))
 
 
-@app.route("/")
+@app.route("/guitarlist")
 def guitarlist():
     """
     display guitars
@@ -48,9 +65,17 @@ def guitarlist():
     return render_template("guitarlist.html", title="Guitars", guitars=guitars)
 
 
+@app.route("/")
+def index():
+    """
+    display guitars
+    """
+    return render_template("index.html", title="Guitars")
+
+
 def run():
     if 'KUBERNETES_PORT' in os.environ:
-        os.environ['KUBERNETES_SERVICE_HOST'] = 'kubernetes'
+        # os.environ['KUBERNETES_SERVICE_HOST'] = 'kubernetes'
         config.load_incluster_config()
     else:
         config.load_kube_config()

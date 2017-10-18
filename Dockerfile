@@ -6,4 +6,4 @@ RUN pip install git+git://github.com/kubernetes-incubator/client-python.git@2c0b
 ADD controller.py /tmp
 ADD guitar.yml /tmp
 
-ENTRYPOINT  ["python", "/tmp/controller.py"]
+ENTRYPOINT  ["python", "-u", "/tmp/controller.py"]

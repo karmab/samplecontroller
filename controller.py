@@ -30,7 +30,7 @@ def review_guitar(crds, event, obj):
 
 if __name__ == "__main__":
     if 'KUBERNETES_PORT' in os.environ:
-        os.environ['KUBERNETES_SERVICE_HOST'] = 'kubernetes'
+        # os.environ['KUBERNETES_SERVICE_HOST'] = 'kubernetes'
         config.load_incluster_config()
     else:
         config.load_kube_config()

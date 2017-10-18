@@ -1,11 +1,10 @@
-{% extends "layout.html" %}
-{% block content %}
 <table id="guitars" cellspacing="0" width="100%" class="table table-striped table-bordered table-hover">
         <thead class="thead-inverse">
             <tr>
                 <th>Brand</th>
                 <th>Name</th>
                 <th>Review</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -14,9 +13,8 @@
 		<td>{{ guitar.get("spec")["brand"] }}</td>
 		<td>{{ guitar.get("metadata")["name"] }}</td>
 		<td>{{ guitar.get("spec")["comment"] }}</td>
+        <td  onclick="guitardelete('{{ guitar.get("metadata")["name"] }}');"><span class="glyphicon glyphicon-trash red"></span> Delete</td>
 		</tr>
 			{% endfor %}
         </tbody>
 </table>
-<a href="{{ url_for('guitarform') }}">add a new guitar!</a>
-{% endblock %}

@@ -1,9 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div id="wheel"></div>
-<div class='notifications top-right'></div>
-<form id="createguitar">
     <div class="form-group">
         <label for="inputName">Name</label>
         <input required="true" class="form-control" id="name" placeholder="Enter Model Name">
@@ -17,7 +13,6 @@
         </select>
     </div>
     <button type="submit" class="btn btn-primary" onclick="guitarcreate();">Create</button>
-</form>
 
-<br><a href="{{ url_for('guitarlist') }}">back to guitar list</a>
+<br><a href="{{ url_for('index') }}">back to guitar list</a>
 {% endblock %}

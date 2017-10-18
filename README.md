@@ -40,7 +40,7 @@ oc get guitars -o yaml
 
 ## UI
 
-To ease testing, you can also use the provided UI
+To ease testing, you can also use the provided UI to list, create and delete guitars
 
 ```
 oc new-app karmab/sampleui
@@ -49,7 +49,7 @@ oc expose svc sampleui
 
 ## TODO
 
-- build a basic flask ui to create and view guitar objects
+- investigate crashloops controller
 
 ## Copyright
 
