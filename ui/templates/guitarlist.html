@@ -9,11 +9,14 @@
         </thead>
         <tbody>
             {% for guitar in guitars %}
+            {% set name = guitar.get("metadata")["name"]  %}
+            {% set brand = guitar.get("spec")["brand"]  %}
+            {% set comment = guitar.get("spec")["comment"]  %}
 		<tr>
-		<td>{{ guitar.get("spec")["brand"] }}</td>
-		<td>{{ guitar.get("metadata")["name"] }}</td>
-		<td>{{ guitar.get("spec")["comment"] }}</td>
-        <td  onclick="guitardelete('{{ guitar.get("metadata")["name"] }}');"><span class="glyphicon glyphicon-trash red"></span> Delete</td>
+            <td><img src="{{ url_for('static', filename='images/'+ brand + '.png') }}" alt="{{ brand }}"/> </td>
+		<td>{{ name }}</td>
+		<td>{{ comment }}</td>
+        <td  onclick="guitardelete('{{ name }}');"><span class="glyphicon glyphicon-trash red"></span> Delete</td>
 		</tr>
 			{% endfor %}
         </tbody>
