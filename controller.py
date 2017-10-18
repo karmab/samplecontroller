@@ -8,7 +8,7 @@ goodbrands = ['coleclark', 'fender', 'gibson', 'ibanez', 'martin', 'seagull', 's
 badbrands = ['epiphone', 'guild', 'gretsch', 'jackson', 'ovation', 'prs', 'rickenbauer', 'taylor', 'yamaha']
 
 
-def review_guitar(crds, event, obj):
+def review_guitar(crds, obj):
     metadata = obj.get("metadata")
     if not metadata:
         print("No metadata in object, skipping: %s" % json.dumps(obj, indent=1))
@@ -46,14 +46,24 @@ if __name__ == "__main__":
     crds = client.CustomObjectsApi()
 
     print("Waiting for Guitars to come up...")
-    stream = watch.Watch().stream(crds.list_cluster_custom_object, DOMAIN, "v1", "guitars")
-    for event in stream:
-        obj = event["object"]
-        spec = obj.get("spec")
-        if not spec:
-            print("No 'spec' in object, skipping event: %s" % json.dumps(obj, indent=1))
-            continue
-        done = spec.get("review", False)
-        if done:
-            continue
-        review_guitar(crds, event, obj)
+    resource_version = None
+    while True:
+        if resource_version is None:
+            stream = watch.Watch().stream(crds.list_cluster_custom_object, DOMAIN, "v1", "guitars")
+        else:
+            stream = watch.Watch().stream(crds.list_cluster_custom_object, DOMAIN, "v1", "guitars", resource_version=resource_version)
+        for event in stream:
+            obj = event["object"]
+            operation = event['type']
+            spec = obj.get("spec")
+            if not spec:
+                print("No 'spec' in object, skipping event: %s" % json.dumps(obj, indent=1))
+                continue
+            metadata = obj.get("metadata")
+            resource_version = metadata['resourceVersion']
+            name = metadata['name']
+            print("Handling %s on %s" % (operation, name))
+            done = spec.get("review", False)
+            if done:
+                continue
+            review_guitar(crds, obj)

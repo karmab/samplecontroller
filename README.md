@@ -47,10 +47,6 @@ oc new-app karmab/sampleui
 oc expose svc sampleui
 ```
 
-## TODO
-
-- investigate crashloops controller
-
 ## Copyright
 
 Copyright 2017 Karim Boumedhel
