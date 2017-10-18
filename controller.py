@@ -32,13 +32,15 @@ if __name__ == "__main__":
     if 'KUBERNETES_PORT' in os.environ:
         # os.environ['KUBERNETES_SERVICE_HOST'] = 'kubernetes'
         config.load_incluster_config()
+        definition = '/tmp/guitar.yml'
     else:
         config.load_kube_config()
+        definition = 'guitar.yml'
     v1 = client.ApiextensionsV1beta1Api()
     current_crds = [x['spec']['names']['kind'].lower() for x in v1.list_custom_resource_definition().to_dict()['items']]
     if 'guitar' not in current_crds:
         print("Creating guitar definition")
-        with open('./guitar.yml') as data:
+        with open(definition) as data:
             body = yaml.load(data)
         v1.create_custom_resource_definition(body)
     crds = client.CustomObjectsApi()

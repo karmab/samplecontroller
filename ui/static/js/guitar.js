@@ -9,7 +9,7 @@ function guitarcreate() {
           data: data,
           success: function(data) {
                if (data.result == 'success') {
-                $("body").overhang({message: "Guitar "+name+" Created!!!", type: "success", duration: 5});
+                $("body").overhang({message: "Guitar "+name+" Created!!!", type: "success"});
                } else {
                 $("body").overhang({message: "Guitar "+name+" Failed to Create Because "+data.reason, type: "error", closeConfirm: true});
                };
@@ -26,7 +26,7 @@ function guitardelete(name) {
           dataType: 'json',
           success: function(data) {
               if (data.result == 'success') {
-                $("body").overhang({message: "Guitar "+name+" Deleted!!!", type: "success", duration: 5});
+                $("body").overhang({message: "Guitar "+name+" Deleted!!!", type: "success"});
                 guitarlist();
               } else {
                 $("body").overhang({message: "Guitar "+name+" Failed to Delete Because "+data.reason, type: "error", closeConfirm: true});
