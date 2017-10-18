@@ -44,7 +44,7 @@ if __name__ == "__main__":
     crds = client.CustomObjectsApi()
 
     print("Waiting for Guitars to come up...")
-    stream = watch.Watch().stream(crds.list_cluster_custom_object, DOMAIN, "v1", "guitars")
+    stream = watch.Watch().stream(crds.list_cluster_custom_object, DOMAIN, "v1", "guitars", _request_timeout=31536000)
     for event in stream:
         obj = event["object"]
         spec = obj.get("spec")
