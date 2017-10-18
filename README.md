@@ -13,7 +13,7 @@ This is a simple controller to demonstrate how to interact within kubernetes usi
 on minikub/gce
 
 ```
-kubectl run samplecontroller --image=karmab/samplecontroller
+kubectl run samplecontroller --image=karmab/samplecontroller --restart=Always
 kubectl run sampleui --image=karmab/sampleui
 kubectl expose deployment sampleui --port=9000 --target-port=9000 --type=LoadBalancer
 ```
