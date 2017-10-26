@@ -1,0 +1,20 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  initializers:
+    pending: []
+  labels:
+    app: sampleinitializer
+  name: sampleinitializer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sampleinitializer
+      name: sampleinitializer
+    spec:
+      containers:
+        - name: initializer
+          image: karmab/sampleinitializer
+          imagePullPolicy: Always

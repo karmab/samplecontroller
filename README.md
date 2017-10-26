@@ -47,6 +47,10 @@ oc new-app karmab/sampleui
 oc expose svc sampleui
 ```
 
+## BONUS
+
+You can also have a look at [initializer](initializer) for extra code around Initializers
+
 ## Copyright
 
 Copyright 2017 Karim Boumedhel

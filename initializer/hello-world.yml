@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    prout: "true"
+  labels:
+    app: helloworld
+    envoy: "true"
+  name: helloworld-with-annotation
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        envoy: "true"
+      name: helloworld-with-annotation
+    spec:
+      containers:
+        - name: helloworld
+          image: gcr.io/hightowerlabs/helloworld:0.0.1
+          imagePullPolicy: Always
+          args:
+            - "-http=127.0.0.1:8080"
