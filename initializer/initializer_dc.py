@@ -15,8 +15,6 @@ def process_deployment(obj):
     name = metadata.name
     initializers = metadata.initializers
     namespace = metadata.namespace
-    print name, initializers, namespace
-    # labels = metadata.labels
     annotations = metadata.annotations
     if initializers is None:
         return
@@ -61,4 +59,4 @@ if __name__ == "__main__":
                 resource_version = metadata._resource_version
                 name = metadata.name
                 print("Handling %s on %s" % (operation, name))
-                # process_deployment(obj)
+                process_deployment(obj)
