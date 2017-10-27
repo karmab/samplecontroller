@@ -1,7 +1,9 @@
 import json
-# import yaml
-from kubernetes import client, config, watch
+# from kubernetes import config, watch
+from kubernetes import config
+from openshift import client
 import os
+
 
 INITIALIZER = 'test.initializer.karmalabs.local'
 
@@ -14,42 +16,46 @@ def process_deployment(obj):
     name = metadata.name
     initializers = metadata.initializers
     namespace = metadata.namespace
+    print name, initializers, namespace
     # labels = metadata.labels
     annotations = metadata.annotations
     if initializers is None:
         return
     for entry in initializers.pending:
         if entry.name == INITIALIZER:
-            print("Updating deployment %s" % name)
+            print("Updating deployment config %s" % name)
             initializers.pending.remove(entry)
             if not initializers.pending:
                 initializers = None
             obj.metadata.initializers = initializers
             if annotation is None or (annotations and annotation in annotations and annotations[annotation] == 'true'):
-                print("Adding container %s to deployment %s" % (inject, name))
+                print("Adding container %s to deployment config %s" % (inject, name))
                 newcontainer = {'image': inject, 'name': 'injected'}
                 obj.spec.template.spec.containers.append(newcontainer)
-            v1.replace_namespaced_deployment(name, namespace, obj)
+            oapi.replace_namespaced_deployment_config(name, namespace, obj)
             break
 
 
 if __name__ == "__main__":
-    global v1
+    global oapi
     inject = os.environ['INJECT_POD'] if 'INJECT_POD' in os.environ else 'karmab/kdummy'
     annotation = os.environ['ANNOTATION'] if 'ANNOTATION' in os.environ else None
     if annotation is not None:
-        print "Injecting %s to new deployments with annotation %s set to true" % (inject, annotation)
+        print "Injecting %s to new deployment configs with annotation %s set to true" % (inject, annotation)
     else:
-        print "Injecting %s to all new deployments" % inject
+        print "Injecting %s to all new deployment configs" % inject
     if 'KUBERNETES_PORT' in os.environ:
         config.load_incluster_config()
     else:
         config.load_kube_config()
-    v1 = client.AppsV1beta1Api()
-    resource_version = ''
+    oapi = client.OapiApi()
+    resource_version = 0
     while True:
-        stream = watch.Watch().stream(v1.list_deployment_for_all_namespaces, include_uninitialized=True, resource_version=resource_version)
-        for event in stream:
+        stream = oapi.list_deployment_config_for_all_namespaces(watch=True, include_uninitialized=True, time_out=10)
+        print stream
+        if stream.items is None:
+            continue
+        for event in stream.items:
                 obj = event["object"]
                 operation = event['type']
                 spec = obj.spec
@@ -58,5 +64,5 @@ if __name__ == "__main__":
                 metadata = obj.metadata
                 resource_version = metadata._resource_version
                 name = metadata.name
-                print("Handling %s on %s" % (operation, name))
-                process_deployment(obj)
+                print("Handling %s" % (name))
+                # process_deployment(obj)
