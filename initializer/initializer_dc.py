@@ -1,7 +1,6 @@
 import json
-# from kubernetes import config, watch
 from kubernetes import config
-from openshift import client
+from openshift import client, watch
 import os
 
 
@@ -49,13 +48,10 @@ if __name__ == "__main__":
     else:
         config.load_kube_config()
     oapi = client.OapiApi()
-    resource_version = 0
+    resource_version = ''
     while True:
-        stream = oapi.list_deployment_config_for_all_namespaces(watch=True, include_uninitialized=True, time_out=10)
-        print stream
-        if stream.items is None:
-            continue
-        for event in stream.items:
+        stream = watch.Watch().stream(oapi.list_deployment_config_for_all_namespaces, include_uninitialized=True, resource_version=resource_version)
+        for event in stream:
                 obj = event["object"]
                 operation = event['type']
                 spec = obj.spec
@@ -64,5 +60,5 @@ if __name__ == "__main__":
                 metadata = obj.metadata
                 resource_version = metadata._resource_version
                 name = metadata.name
-                print("Handling %s" % (name))
+                print("Handling %s on %s" % (operation, name))
                 # process_deployment(obj)
