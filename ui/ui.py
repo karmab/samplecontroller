@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 @app.route("/guitaradd", methods=['POST'])
 def guitaradd():
-    name = request.form['name']
+    name = request.form['name'].lower()
     brand = request.form['brand']
     body = {'kind': 'Guitar', 'spec': {'brand': brand, 'review': False}, 'apiVersion': '%s/%s' % (DOMAIN, VERSION), 'metadata': {'name': name, 'namespace': NAMESPACE}}
     crds = client.CustomObjectsApi()
