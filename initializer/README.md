@@ -58,5 +58,7 @@ kubectl describe deployment nginx
 # TO DO
 
 - use go instead of python
+- autocreate the initializer configuration when starting the controller
+- store this conf in a configmap and read it when starting
 
 ## based on [keylsey hightower initializer tutorial](https://github.com/kelseyhightower/kubernetes-initializer-tutorial)
