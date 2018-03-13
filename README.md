@@ -10,8 +10,6 @@ This is a simple controller to demonstrate how to interact within kubernetes usi
 
 ## Running
 
-**note**: if using invalid certs (eg. on minikube) then set a non-empty `ALLOW_INVALID_SSL_CERTS` env var in controller run command (eg. `--env="ALLOW_INVALID_SSL_CERTS=yes"`).
-
 on minikub/gce
 
 ```

@@ -30,15 +30,13 @@ def review_guitar(crds, obj):
 
 if __name__ == "__main__":
     if 'KUBERNETES_PORT' in os.environ:
-        # os.environ['KUBERNETES_SERVICE_HOST'] = 'kubernetes'
         config.load_incluster_config()
         definition = '/tmp/guitar.yml'
     else:
         config.load_kube_config()
         definition = 'guitar.yml'
     configuration = client.Configuration()
-    if 'ALLOW_INVALID_SSL_CERTS' in os.environ:
-        configuration.assert_hostname = False
+    configuration.assert_hostname = False
     api_client = client.api_client.ApiClient(configuration=configuration)
     v1 = client.ApiextensionsV1beta1Api(api_client)
     current_crds = [x['spec']['names']['kind'].lower() for x in v1.list_custom_resource_definition().to_dict()['items']]
