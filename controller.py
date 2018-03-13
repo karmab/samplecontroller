@@ -36,14 +36,18 @@ if __name__ == "__main__":
     else:
         config.load_kube_config()
         definition = 'guitar.yml'
-    v1 = client.ApiextensionsV1beta1Api()
+    configuration = client.Configuration()
+    if 'ALLOW_INVALID_SSL_CERTS' in os.environ:
+        configuration.assert_hostname = False
+    api_client = client.api_client.ApiClient(configuration=configuration)
+    v1 = client.ApiextensionsV1beta1Api(api_client)
     current_crds = [x['spec']['names']['kind'].lower() for x in v1.list_custom_resource_definition().to_dict()['items']]
     if 'guitar' not in current_crds:
         print("Creating guitar definition")
         with open(definition) as data:
             body = yaml.load(data)
         v1.create_custom_resource_definition(body)
-    crds = client.CustomObjectsApi()
+    crds = client.CustomObjectsApi(api_client)
 
     print("Waiting for Guitars to come up...")
     resource_version = ''
