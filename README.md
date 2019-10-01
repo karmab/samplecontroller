@@ -51,6 +51,8 @@ oc expose svc sampleui
 
 You can also have a look at [initializer](initializer) for extra code around Initializers
 
+Also, if you prefer to use kopf, you can use the code in `kopf_handler.py`
+
 ## Copyright
 
 Copyright 2017 Karim Boumedhel
