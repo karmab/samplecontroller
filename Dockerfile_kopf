@@ -1,0 +1,4 @@
+FROM python:3.7
+ADD /kopf /kopf
+RUN pip install kopf kubernetes
+CMD kopf run /kopf/handlers.py --verbose
